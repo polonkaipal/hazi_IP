@@ -50,11 +50,19 @@ namespace TesztIP
         //Kon#2
         public IPV4(byte d31, byte d23, byte d15, byte d7, string leiro)
         {
-            this.IPaddrMembers[0] = d31;
-            this.IPaddrMembers[1] = d23;
-            this.IPaddrMembers[2] = d15;
-            this.IPaddrMembers[3] = d7;
-            AddComment(leiro);
+            try
+            {
+                if (decSzamokEll(d31) && decSzamokEll(d23) && decSzamokEll(d15) && decSzamokEll(7))
+                {
+                    this.IPaddrMembers[0] = d31;
+                    this.IPaddrMembers[1] = d23;
+                    this.IPaddrMembers[2] = d15;
+                    this.IPaddrMembers[3] = d7;
+                    AddComment(leiro);
+                }
+                else { throw new ArgumentException("A szám csak 0 és 255 közötti lehet!!!"); }
+            }
+            catch (ArgumentException ae) { Console.WriteLine(ae); }
         }
 
         //Kon#3
