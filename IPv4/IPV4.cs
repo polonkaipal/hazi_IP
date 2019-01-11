@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace TesztIP
 {
@@ -75,8 +76,24 @@ namespace TesztIP
         // - ha pontozott decimális és ( rövidebb 7-nél, vagy hosszabb 15-nél )
         public IPV4(string ipaddress, string leiro)
         {
-            //a megjegyzés beállítására ezt használja!
-            AddComment(leiro);
+            try
+            {
+                if (ipaddress.Length == 32) { foreach (var betu in ipaddress) { if (betu != '1' || betu != '0') { throw new ArgumentException("Csak '0' vagy '1' karaktereket tartalmazhat"); } } }
+                else if (ipaddress.Length == 35)
+                {
+                    string[] cimek = ipaddress.Split('.');
+                    try
+                    {
+                        if (cimek.Length != NumOfMembers) { throw new ArgumentException((new StringBuilder("A cím csak {0} tagú lehet!!!", NumOfMembers)).ToString()); }
+                        else { foreach (string cim in cimek) { if (cim.Length < 8 || cim.Length > 16) { throw new ArgumentException("A címtagok 8 vagy 16 bit hosszú lehet"); } } }
+                    }
+                    catch (ArgumentException ae) { Console.WriteLine(ae); }
+                }
+                else { throw new ArgumentException("Az IP cím csak 32 darab 1-est és 0-ást tartalmazhat!\nVagy pontokkal elválasztva oktettenként!"); }
+                //a megjegyzés beállítására ezt használja!
+                AddComment(leiro);
+            }
+            catch (ArgumentException ae) { Console.WriteLine(ae); }
         }
 
         // Belső használatú metódusok
