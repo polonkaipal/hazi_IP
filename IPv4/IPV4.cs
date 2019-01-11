@@ -23,14 +23,29 @@ namespace TesztIP
         // Eng: Comment Hu: leiroSzoveg
         private string comment = "";
 
+        //Decimális számok ellenőrzése
+        private static bool decSzamokEll(byte szam)
+        {
+            if (szam > 255 || szam < 0) { throw new ArgumentException("A szám csak 0 és 255 közötti lehet!!!"); }
+            else { return true; };
+        }
+
         //Konstruktorok
         //Kon#1
         public IPV4(byte d31, byte d23, byte d15, byte d7) //d31 - az adott tag legmagasabb helyiértékű bitjét jelenti a 31
         {
-            this.IPaddrMembers[0] = d31;
-            this.IPaddrMembers[1] = d23;
-            this.IPaddrMembers[2] = d15;
-            this.IPaddrMembers[3] = d7;
+            try
+            {
+                if (decSzamokEll(d31) && decSzamokEll(d23) && decSzamokEll(d15) && decSzamokEll(7))
+                {
+                    this.IPaddrMembers[0] = d31;
+                    this.IPaddrMembers[1] = d23;
+                    this.IPaddrMembers[2] = d15;
+                    this.IPaddrMembers[3] = d7;
+                }
+                else { throw new ArgumentException("A szám csak 0 és 255 közötti lehet!!!"); }
+            }
+            catch (ArgumentException ae) { Console.WriteLine(ae); }
         }
         //Kon#2
         public IPV4(byte d31, byte d23, byte d15, byte d7, string leiro)
